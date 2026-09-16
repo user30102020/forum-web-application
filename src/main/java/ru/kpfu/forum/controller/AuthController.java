@@ -34,6 +34,6 @@ public class AuthController {
             model.addAttribute("error", exception.getMessage());
             return "register";
         }
-        return "redirect:/login";
+        return "redirect:/login?registered";
     }
 }

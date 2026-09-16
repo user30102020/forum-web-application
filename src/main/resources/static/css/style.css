@@ -13,3 +13,19 @@ input {
 .error {
     color: red;
 }
+
+.inline {
+    display: inline;
+}
+
+.meta {
+    color: gray;
+}
+
+.content {
+    white-space: pre-wrap;
+}
+
+textarea {
+    width: 100%;
+}
