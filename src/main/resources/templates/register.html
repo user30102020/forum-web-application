@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<header th:replace="~{fragments :: header}"></header>
 <h1>Регистрация</h1>
 
 <p class="error" th:if="${error}" th:text="${error}"></p>

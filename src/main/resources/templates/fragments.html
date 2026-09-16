@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header">
+    <div>
+        <a th:href="@{/}">Форум</a>
+        <th:block th:if="${currentUsername}">
+            | <a th:href="@{/publications/new}">Новая публикация</a>
+            | <span th:text="${currentUsername}">имя</span>
+            <form class="inline" th:action="@{/logout}" method="post">
+                <button type="submit">Выйти</button>
+            </form>
+        </th:block>
+        <th:block th:unless="${currentUsername}">
+            | <a th:href="@{/login}">Войти</a>
+            | <a th:href="@{/register}">Регистрация</a>
+        </th:block>
+    </div>
+    <hr>
+</header>
+</body>
+</html>

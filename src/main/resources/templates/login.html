@@ -6,9 +6,11 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<header th:replace="~{fragments :: header}"></header>
 <h1>Вход</h1>
 
 <p class="error" th:if="${param.error}">Неверное имя пользователя или пароль</p>
+<p th:if="${param.registered}">Регистрация прошла успешно, теперь войдите</p>
 
 <form th:action="@{/login}" method="post">
     <p>
