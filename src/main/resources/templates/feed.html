@@ -12,9 +12,17 @@
 
 <p th:if="${publications.isEmpty()}" th:text="#{feed.empty}">Публикаций пока нет</p>
 
+<p th:unless="${publications.isEmpty()}">
+    <a th:unless="${translatedTitles}" th:href="@{/(translate=true)}" th:text="#{publication.translate}">Перевести названия</a>
+    <a th:if="${translatedTitles}" th:href="@{/}" th:text="#{publication.showOriginal}">Показать оригинал названий</a>
+</p>
+
+<p class="error" th:if="${translationFailed}" th:text="#{publication.translationFailed}">Сервис перевода недоступен</p>
+
 <div th:each="publication : ${publications}">
     <h2>
-        <a th:href="@{/publications/{id}(id=${publication.id})}" th:text="${publication.title}">Заголовок</a>
+        <a th:href="@{/publications/{id}(id=${publication.id})}"
+           th:text="${translatedTitles != null ? translatedTitles[publication.id] : publication.title}">Заголовок</a>
     </h2>
     <p class="meta">
         <span th:text="${publication.author.username}">автор</span>,
