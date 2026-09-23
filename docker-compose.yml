@@ -19,7 +19,6 @@ services:
     build: .
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/forum
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/forum
       TZ: Europe/Moscow
     ports:
       - "8080:8080"
