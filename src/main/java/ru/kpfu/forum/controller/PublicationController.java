@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.kpfu.forum.dto.PublicationForm;
 import ru.kpfu.forum.entity.Publication;
 import ru.kpfu.forum.service.PublicationService;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestClientException;
+
+import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,17 +25,34 @@ public class PublicationController {
     private final PublicationService publicationService;
 
     @GetMapping("/")
-    public String feed(Model model) {
-        model.addAttribute("publications", publicationService.findAll());
+    public String feed(@RequestParam(defaultValue = "false") boolean translate, Locale locale, Model model) {
+        List<Publication> publications = publicationService.findAll();
+        model.addAttribute("publications", publications);
+        if (translate) {
+            try {
+                model.addAttribute("translatedTitles",
+                        publicationService.translateTitles(publications, locale.getLanguage()));
+            } catch (RestClientException exception) {
+                model.addAttribute("translationFailed", true);
+            }
+        }
         return "feed";
     }
 
     @GetMapping("/publications/{id}")
-    public String view(@PathVariable Long id, @AuthenticationPrincipal UserDetails currentUser, Model model) {
+    public String view(@PathVariable Long id, @RequestParam(defaultValue = "false") boolean translate,
+                       @AuthenticationPrincipal UserDetails currentUser, Locale locale, Model model) {
         Publication publication = publicationService.getById(id);
         model.addAttribute("publication", publication);
         model.addAttribute("isAuthor",
                 currentUser != null && publicationService.isAuthor(publication, currentUser.getUsername()));
+        if (translate) {
+            try {
+                model.addAttribute("translation", publicationService.translate(publication, locale.getLanguage()));
+            } catch (RestClientException exception) {
+                model.addAttribute("translationFailed", true);
+            }
+        }
         return "publication";
     }
 

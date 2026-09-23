@@ -15,10 +15,20 @@ services:
       timeout: 5s
       retries: 10
 
+  libretranslate:
+    image: libretranslate/libretranslate
+    environment:
+      LT_LOAD_ONLY: en,ru
+    ports:
+      - "5000:5000"
+    volumes:
+      - libretranslate-models:/home/libretranslate/.local
+
   app:
     build: .
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/forum
+      TRANSLATION_URL: http://libretranslate:5000
       TZ: Europe/Moscow
     ports:
       - "8080:8080"
@@ -28,3 +38,4 @@ services:
 
 volumes:
   forum-postgres-data:
+  libretranslate-models:

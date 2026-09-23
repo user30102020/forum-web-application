@@ -8,7 +8,7 @@
 <body>
 <header th:replace="~{fragments :: header}"></header>
 
-<h1 th:text="${publication.title}">Заголовок</h1>
+<h1 th:text="${translation != null ? translation.title : publication.title}">Заголовок</h1>
 
 <p class="meta">
     <span th:text="${publication.author.username}">автор</span>,
@@ -19,7 +19,16 @@
     </span>
 </p>
 
-<div class="content" th:text="${publication.content}">Текст публикации</div>
+<div class="content" th:text="${translation != null ? translation.content : publication.content}">Текст публикации</div>
+
+<p>
+    <a th:unless="${translation}" th:href="@{/publications/{id}(id=${publication.id},translate=true)}"
+       th:text="#{publication.translate}">Перевести</a>
+    <a th:if="${translation}" th:href="@{/publications/{id}(id=${publication.id})}"
+       th:text="#{publication.showOriginal}">Показать оригинал</a>
+</p>
+
+<p class="error" th:if="${translationFailed}" th:text="#{publication.translationFailed}">Сервис перевода недоступен</p>
 
 <div th:if="${isAuthor}">
     <a th:href="@{/publications/{id}/edit(id=${publication.id})}" th:text="#{publication.edit}">Редактировать</a>
