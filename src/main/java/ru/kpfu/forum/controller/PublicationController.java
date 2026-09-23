@@ -37,7 +37,7 @@ public class PublicationController {
     @GetMapping("/publications/new")
     public String createForm(Model model) {
         model.addAttribute("publicationForm", new PublicationForm());
-        return "publication-form.html";
+        return "publication-form";
     }
 
     @PostMapping("/publications")
@@ -56,7 +56,7 @@ public class PublicationController {
         publicationForm.setContent(publication.getContent());
         model.addAttribute("publicationForm", publicationForm);
         model.addAttribute("publicationId", id);
-        return "publication-form.html";
+        return "publication-form";
     }
 
     @PostMapping("/publications/{id}/edit")

@@ -17,10 +17,10 @@ public class UserService {
     @Transactional
     public void register(String username, String email, String password) {
         if (userRepository.existsByUsername(username)) {
-            throw new IllegalArgumentException("Пользователь с таким именем уже существует");
+            throw new IllegalArgumentException("error.username.taken");
         }
         if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("Пользователь с таким email уже существует");
+            throw new IllegalArgumentException("error.email.taken");
         }
         User user = new User();
         user.setUsername(username);

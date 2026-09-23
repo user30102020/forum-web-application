@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title th:text="${publication.title}">Публикация</title>
@@ -13,17 +13,16 @@
 <p class="meta">
     <span th:text="${publication.author.username}">автор</span>,
     <span th:text="${#temporals.format(publication.createdAt, 'dd.MM.yyyy HH:mm')}">дата</span>
-    <span th:if="${publication.updatedAt}">
-        (изменена <span th:text="${#temporals.format(publication.updatedAt, 'dd.MM.yyyy HH:mm')}">дата</span>)
-    </span>
+    <span th:if="${publication.updatedAt}"
+          th:text="#{publication.edited(${#temporals.format(publication.updatedAt, 'dd.MM.yyyy HH:mm')})}">(изменена)</span>
 </p>
 
 <div class="content" th:text="${publication.content}">Текст публикации</div>
 
 <div th:if="${isAuthor}">
-    <a th:href="@{/publications/{id}/edit(id=${publication.id})}">Редактировать</a>
+    <a th:href="@{/publications/{id}/edit(id=${publication.id})}" th:text="#{publication.edit}">Редактировать</a>
     <form class="inline" th:action="@{/publications/{id}/delete(id=${publication.id})}" method="post">
-        <button type="submit">Удалить</button>
+        <button type="submit" th:text="#{publication.delete}">Удалить</button>
     </form>
 </div>
 </body>

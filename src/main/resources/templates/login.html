@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Вход</title>
+    <title th:text="#{login.title}">Вход</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
-<h1>Вход</h1>
+<h1 th:text="#{login.title}">Вход</h1>
 
-<p class="error" th:if="${param.error}">Неверное имя пользователя или пароль</p>
-<p th:if="${param.registered}">Регистрация прошла успешно, теперь войдите</p>
+<p class="error" th:if="${param.error}" th:text="#{login.error}">Неверное имя пользователя или пароль</p>
+<p th:if="${param.registered}" th:text="#{login.registered}">Регистрация прошла успешно, теперь войдите</p>
 
 <form th:action="@{/login}" method="post">
     <p>
-        <label>Имя пользователя<br>
+        <label><span th:text="#{field.username}">Имя пользователя</span><br>
             <input type="text" name="username" required>
         </label>
     </p>
     <p>
-        <label>Пароль<br>
+        <label><span th:text="#{field.password}">Пароль</span><br>
             <input type="password" name="password" required>
         </label>
     </p>
-    <button type="submit">Войти</button>
+    <button type="submit" th:text="#{login.submit}">Войти</button>
 </form>
 
-<p><a th:href="@{/register}">Регистрация</a></p>
+<p><a th:href="@{/register}" th:text="#{nav.register}">Регистрация</a></p>
 </body>
 </html>
