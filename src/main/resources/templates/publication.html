@@ -12,9 +12,11 @@
 
 <p class="meta">
     <span th:text="${publication.author.username}">автор</span>,
-    <span th:text="${#temporals.format(publication.createdAt, 'dd.MM.yyyy HH:mm')}">дата</span>
+    <span th:text="${#temporals.format(publication.createdAt, #messages.msg('date.format'))}">дата</span>
     <span th:if="${publication.updatedAt}"
-          th:text="#{publication.edited(${#temporals.format(publication.updatedAt, 'dd.MM.yyyy HH:mm')})}">(изменена)</span>
+          th:text="#{publication.edited(${#temporals.format(publication.updatedAt, #messages.msg('date.format'))})}">
+        (изменена)
+    </span>
 </p>
 
 <div class="content" th:text="${publication.content}">Текст публикации</div>

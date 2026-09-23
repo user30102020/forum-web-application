@@ -18,7 +18,7 @@
     </h2>
     <p class="meta">
         <span th:text="${publication.author.username}">автор</span>,
-        <span th:text="${#temporals.format(publication.createdAt, 'dd.MM.yyyy HH:mm')}">дата</span>
+        <span th:text="${#temporals.format(publication.createdAt, #messages.msg('date.format'))}">дата</span>
     </p>
 </div>
 </body>
