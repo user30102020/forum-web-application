@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Форум</title>
+    <title th:text="#{app.name}">Форум</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
 
-<h1>Лента</h1>
+<h1 th:text="#{feed.title}">Лента</h1>
 
-<p th:if="${publications.isEmpty()}">Публикаций пока нет</p>
+<p th:if="${publications.isEmpty()}" th:text="#{feed.empty}">Публикаций пока нет</p>
 
 <div th:each="publication : ${publications}">
     <h2>
@@ -18,7 +18,7 @@
     </h2>
     <p class="meta">
         <span th:text="${publication.author.username}">автор</span>,
-        <span th:text="${#temporals.format(publication.createdAt, 'dd.MM.yyyy HH:mm')}">дата</span>
+        <span th:text="${#temporals.format(publication.createdAt, #messages.msg('date.format'))}">дата</span>
     </p>
 </div>
 </body>

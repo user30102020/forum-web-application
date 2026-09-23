@@ -31,7 +31,7 @@ public class AuthController {
         try {
             userService.register(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword());
         } catch (IllegalArgumentException exception) {
-            model.addAttribute("error", exception.getMessage());
+            model.addAttribute("errorCode", exception.getMessage());
             return "register";
         }
         return "redirect:/login?registered";

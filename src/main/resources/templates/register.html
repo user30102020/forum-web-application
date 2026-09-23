@@ -1,35 +1,35 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Регистрация</title>
+    <title th:text="#{register.title}">Регистрация</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
-<h1>Регистрация</h1>
+<h1 th:text="#{register.title}">Регистрация</h1>
 
-<p class="error" th:if="${error}" th:text="${error}"></p>
+<p class="error" th:if="${errorCode}" th:text="#{${errorCode}}">ошибка</p>
 
 <form th:action="@{/register}" th:object="${registerForm}" method="post">
     <p>
-        <label>Имя пользователя<br>
+        <label><span th:text="#{field.username}">Имя пользователя</span><br>
             <input type="text" th:field="*{username}" required>
         </label>
     </p>
     <p>
-        <label>Почта<br>
+        <label><span th:text="#{field.email}">Почта</span><br>
             <input type="email" th:field="*{email}" required>
         </label>
     </p>
     <p>
-        <label>Пароль<br>
+        <label><span th:text="#{field.password}">Пароль</span><br>
             <input type="password" name="password" required>
         </label>
     </p>
-    <button type="submit">Зарегистрироваться</button>
+    <button type="submit" th:text="#{register.submit}">Зарегистрироваться</button>
 </form>
 
-<p><a th:href="@{/login}">Вход</a></p>
+<p><a th:href="@{/login}" th:text="#{login.title}">Вход</a></p>
 </body>
 </html>
