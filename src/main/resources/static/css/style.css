@@ -1,0 +1,31 @@
+body {
+    font-family: sans-serif;
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 0 10px;
+}
+
+input {
+    padding: 4px;
+    width: 250px;
+}
+
+.error {
+    color: red;
+}
+
+.inline {
+    display: inline;
+}
+
+.meta {
+    color: gray;
+}
+
+.content {
+    white-space: pre-wrap;
+}
+
+textarea {
+    width: 100%;
+}

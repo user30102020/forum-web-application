@@ -1,0 +1,7 @@
+ALTER TABLE posts DROP CONSTRAINT posts_author_id_fkey;
+ALTER TABLE posts DROP COLUMN author_id;
+
+ALTER TABLE users DROP COLUMN id;
+ALTER TABLE users ADD COLUMN id UUID PRIMARY KEY DEFAULT gen_random_uuid();
+
+ALTER TABLE posts ADD COLUMN author_id UUID NOT NULL REFERENCES users(id);

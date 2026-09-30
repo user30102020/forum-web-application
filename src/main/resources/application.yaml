@@ -1,1 +1,16 @@
-spring.application.name=forum
+spring:
+  application:
+    name: forum
+  datasource:
+    url: jdbc:postgresql://localhost:5445/forum
+    username: forum
+    password: forum
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  messages:
+    fallback-to-system-locale: false
+
+translation:
+  url: http://localhost:5000

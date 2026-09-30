@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{app.name}">Форум</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<h1 th:text="#{feed.title}">Лента</h1>
+
+<p th:if="${publications.isEmpty()}" th:text="#{feed.empty}">Публикаций пока нет</p>
+
+<p th:unless="${publications.isEmpty()}">
+    <a th:unless="${translatedTitles}" th:href="@{/(translate=true)}" th:text="#{publication.translate}">Перевести названия</a>
+    <a th:if="${translatedTitles}" th:href="@{/}" th:text="#{publication.showOriginal}">Показать оригинал названий</a>
+</p>
+
+<p class="error" th:if="${translationFailed}" th:text="#{publication.translationFailed}">Сервис перевода недоступен</p>
+
+<div th:each="publication : ${publications}">
+    <h2>
+        <a th:href="@{/publications/{id}(id=${publication.id})}"
+           th:text="${translatedTitles != null ? translatedTitles[publication.id] : publication.title}">Заголовок</a>
+    </h2>
+    <p class="meta">
+        <span th:text="${publication.author.username}">автор</span>,
+        <span th:text="${#temporals.format(publication.createdAt, #messages.msg('date.format'))}">дата</span>
+    </p>
+</div>
+</body>
+</html>

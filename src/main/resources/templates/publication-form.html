@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${publicationId == null} ? #{publication.new} : #{publication.editing}">Публикация</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<h1 th:text="${publicationId == null} ? #{publication.new} : #{publication.editing}">Публикация</h1>
+
+<form th:action="${publicationId == null} ? @{/publications} : @{/publications/{id}/edit(id=${publicationId})}"
+      th:object="${publicationForm}" method="post">
+    <p>
+        <label><span th:text="#{publication.field.title}">Заголовок</span><br>
+            <input type="text" th:field="*{title}" maxlength="255" required>
+        </label>
+    </p>
+    <p>
+        <label><span th:text="#{publication.field.content}">Текст</span><br>
+            <textarea th:field="*{content}" rows="10" required></textarea>
+        </label>
+    </p>
+    <button type="submit" th:text="#{publication.save}">Сохранить</button>
+</form>
+</body>
+</html>

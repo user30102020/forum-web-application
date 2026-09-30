@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${publication.title}">Публикация</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<h1 th:text="${translation != null ? translation.title : publication.title}">Заголовок</h1>
+
+<p class="meta">
+    <span th:text="${publication.author.username}">автор</span>,
+    <span th:text="${#temporals.format(publication.createdAt, #messages.msg('date.format'))}">дата</span>
+    <span th:if="${publication.updatedAt}"
+          th:text="#{publication.edited(${#temporals.format(publication.updatedAt, #messages.msg('date.format'))})}">
+        (изменена)
+    </span>
+</p>
+
+<div class="content" th:text="${translation != null ? translation.content : publication.content}">Текст публикации</div>
+
+<p>
+    <a th:unless="${translation}" th:href="@{/publications/{id}(id=${publication.id},translate=true)}"
+       th:text="#{publication.translate}">Перевести</a>
+    <a th:if="${translation}" th:href="@{/publications/{id}(id=${publication.id})}"
+       th:text="#{publication.showOriginal}">Показать оригинал</a>
+</p>
+
+<p class="error" th:if="${translationFailed}" th:text="#{publication.translationFailed}">Сервис перевода недоступен</p>
+
+<div th:if="${isAuthor}">
+    <a th:href="@{/publications/{id}/edit(id=${publication.id})}" th:text="#{publication.edit}">Редактировать</a>
+    <form class="inline" th:action="@{/publications/{id}/delete(id=${publication.id})}" method="post">
+        <button type="submit" th:text="#{publication.delete}">Удалить</button>
+    </form>
+</div>
+</body>
+</html>
