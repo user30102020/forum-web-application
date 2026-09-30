@@ -1,77 +1,87 @@
 # Forum
 
-Учебное веб-приложение — форум на Spring Boot.
+A server-rendered forum web application built with Spring Boot as a university project.
 
-## Возможности
+## Features
 
-- Регистрация, вход и выход; пароли хранятся в виде BCrypt-хэшей
-- Общая лента публикаций, доступная без входа
-- Создание, редактирование и удаление публикаций; изменять публикацию может только её автор
-- Интерфейс на русском и английском языках с переключателем
-- Перевод заголовков и текстов публикаций на язык интерфейса через LibreTranslate
+- Registration, login and logout with BCrypt-hashed passwords
+- Public feed of publications, readable without logging in
+- Creating, editing and deleting publications; only the author can modify a publication
+- Russian and English interface with a language switcher
+- On-demand translation of publication titles and content via LibreTranslate
 
-## Технологии
+## Tech stack
 
 Java 21, Spring Boot 4.1 (Spring MVC, Spring Security, Spring Data JPA), Thymeleaf, PostgreSQL 16, Flyway, LibreTranslate, Docker Compose.
 
-## Запуск
+## Getting started
 
-Требуется Docker.
+Requires Docker with Docker Compose.
 
 ```bash
 docker compose up --build
 ```
 
-Приложение будет доступно по адресу http://localhost:8080
+The application is available at http://localhost:8080.
 
-При первом запуске LibreTranslate несколько минут скачивает языковые модели. Форум в это время уже работает, перевод станет доступен после загрузки. Ход загрузки: `docker compose logs -f libretranslate`.
+On first start, LibreTranslate downloads its language models, which takes a few minutes. The forum works in the meantime, and translation becomes available once the download finishes. To follow the progress, run `docker compose logs -f libretranslate`.
 
-## Разработка
+## Usage
 
-Требуется JDK 21. База данных и переводчик запускаются в Docker, приложение — из IDE (класс `ForumApplication`) или через Maven Wrapper:
+Anyone can read the feed and publications. Sign up to create publications; the author sees Edit and Delete buttons on their own publications. Switch the interface language with the RU and EN links in the header, and click Translate on the feed or a publication page to translate the text into the current language.
+
+## Development
+
+Requires JDK 21. Start the database and the translator in Docker, then run the application from the IDE (`ForumApplication`) or with the Maven Wrapper:
 
 ```bash
 docker compose up -d postgres libretranslate
 ./mvnw spring-boot:run
 ```
 
-На Windows вместо `./mvnw` используется `mvnw.cmd`.
+On Windows, use `mvnw.cmd` instead of `./mvnw`.
 
-Тесты поднимают контекст приложения и требуют запущенной базы данных:
+Tests start the application context and need a running database:
 
 ```bash
 ./mvnw test
 ```
 
-## Конфигурация
+## Configuration
 
-Настройки задаются в `src/main/resources/application.yaml` и переопределяются переменными окружения.
+Settings are defined in `src/main/resources/application.yaml` and can be overridden with environment variables.
 
-| Настройка | Переменная окружения | По умолчанию |
+| Property | Environment variable | Default |
 |---|---|---|
 | `spring.datasource.url` | `SPRING_DATASOURCE_URL` | `jdbc:postgresql://localhost:5445/forum` |
 | `spring.datasource.username` | `SPRING_DATASOURCE_USERNAME` | `forum` |
 | `spring.datasource.password` | `SPRING_DATASOURCE_PASSWORD` | `forum` |
 | `translation.url` | `TRANSLATION_URL` | `http://localhost:5000` |
 
-Порты на локальной машине: приложение — `8080`, PostgreSQL — `5445`, LibreTranslate — `5000`.
+Local ports: application `8080`, PostgreSQL `5445`, LibreTranslate `5000`.
 
-## Структура
+## Project structure
 
 ```
 src/main/java/ru/kpfu/forum
-├── config        — Spring Security и выбор языка интерфейса
-├── controller    — обработка HTTP-запросов
-├── dto           — объекты форм и перевода
-├── entity        — JPA-сущности
-├── repository    — доступ к базе данных
-└── service       — бизнес-логика, проверка авторства, перевод
+├── config        Spring Security and interface language
+├── controller    HTTP request handling
+├── dto           form and translation objects
+├── entity        JPA entities
+├── repository    data access
+└── service       business logic, author checks, translation
 
 src/main/resources
-├── db/migration          — миграции Flyway
-├── templates             — шаблоны Thymeleaf
-├── static                — стили
-└── messages*.properties  — тексты интерфейса
+├── db/migration          Flyway migrations
+├── templates             Thymeleaf templates
+├── static                stylesheet
+└── messages*.properties  interface texts
 ```
 
-Схема базы данных создаётся и изменяется только миграциями Flyway; Hibernate лишь проверяет соответствие сущностей схеме (`ddl-auto: validate`).
+The database schema is created and changed only by Flyway migrations; Hibernate just validates the entities against it (`ddl-auto: validate`).
+
+## Contributing
+
+- `main` holds the stable version, `develop` is the integration branch, and each task gets its own `feature/*` branch
+- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/)
+- Branches are merged into `develop` through pull requests with a merge commit, without squashing
